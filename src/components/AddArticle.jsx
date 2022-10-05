@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {Timestamp, collection, addDoc} from "firebase/firestore"
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage"
 import { storage, db} from "./../firebaseConfig"
+import { toast } from 'react-toastify'
 
 export default function AddArticle() {
   const [formData, setFormData] = useState({
@@ -53,11 +54,11 @@ export default function AddArticle() {
           createdAt: Timestamp.now().toDate(),
         })
         .then(()=>{
-          console.log("Toast");
+          toast("Article added successfully", {type: "success"});
           setProgress(0)
         })
         .catch(err=> {
-          console.log("toast");
+          toast("Error adding article", {type: "error"});
         })
       })
     }

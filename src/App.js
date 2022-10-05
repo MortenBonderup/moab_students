@@ -12,7 +12,7 @@ function App() {
 
       <div className ="col-md-4">
         <AddArticle/>
-        
+        <ToastContainer />
       </div>
      </div>
     </div>
