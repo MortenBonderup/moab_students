@@ -1,21 +1,25 @@
-import Articles from "./components/Articles"
-import AddArticle from "./components/AddArticle"; 
-import { ToastContainer } from "react-toastify";
+import { Navigate, Route, Routes } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import CreateProject from "./pages/CreateProject";
+import CreateStudent from "./pages/CreateStudent";
+import ShowStudents from "./pages/ShowStudents";
+import "./App.css";
+import Nav from "./pages/Nav";
 
 function App() {
   return (
-    <div className="container">
-     <div className="row">
-      <div className="col-md-8">
-        <Articles/>
-      </div>
 
-      <div className ="col-md-4">
-        <AddArticle/>
-        <ToastContainer />
-      </div>
-     </div>
-    </div>
+      <main>
+        <Nav/>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/createproject" element={<CreateProject />} />
+          <Route path="/createstudent" element={<CreateStudent />} />
+          <Route path="/posts/:postId" element={<ShowStudents />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </main>
+
   );
 }
 

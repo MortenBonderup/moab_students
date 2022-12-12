@@ -1,13 +1,13 @@
 import React, {useState} from 'react'
 import {Timestamp, collection, addDoc} from "firebase/firestore"
 import {getDownloadURL, ref, uploadBytesResumable} from "firebase/storage"
-import { storage, db} from "./../firebaseConfig"
+import { storage, db} from "../firebaseConfig"
 import { toast } from 'react-toastify'
 
 export default function AddArticle() {
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
+    name: "",
+    project_id: "",
     image: "",
     createdAt: Timestamp.now().toDate(),
   })
@@ -23,7 +23,7 @@ export default function AddArticle() {
   }
 
   const handlePublish = () => {
-    if (!formData.title || !formData.description || !formData.image){
+    if (!formData.name || !formData.project_id || !formData.image){
       alert("Please fill all the fields")
       return;
     }
@@ -40,25 +40,25 @@ export default function AddArticle() {
     },
     ()=>{
       setFormData({
-        title: "",
-        description: "",
+        name: "",
+        project_id: "",
         image: "",
       })
       getDownloadURL(uploadImage.snapshot.ref)
       .then((url)=> {
-        const articleRef = collection(db, "articles")
+        const articleRef = collection(db, "students")
         addDoc(articleRef, {
-          title: formData.title,
-          description: formData.description,
+          name: formData.name,
+          project_id: formData.project_id,
           imageUrl: url,
           createdAt: Timestamp.now().toDate(),
         })
         .then(()=>{
-          toast("Article added successfully", {type: "success"});
+          toast("Student added successfully", {type: "success"});
           setProgress(0)
         })
         .catch(err=> {
-          toast("Error adding article", {type: "error"});
+          toast("Error adding student", {type: "error"});
         })
       })
     }
@@ -68,11 +68,11 @@ export default function AddArticle() {
 
   return (
     <div className="border p-3 mt-3 bg-light" style={{position: "fixed"}}>
-      <h2>Create article</h2>
-      <label htmlFor="">Title</label>
-      <input type="text" name="title" className="form-control" value={formData.title} onChange={(e)=>handleChange(e)}/>
-      <label htmlFor="">Description</label>
-      <textarea name="description" className="form-control" value={formData.description} onChange={(e)=>handleChange(e)}/>
+      <h2>Create student</h2>
+      <label htmlFor="">Student name</label>
+      <input type="text" name="name" className="form-control" value={formData.name} onChange={(e)=>handleChange(e)}/>
+      <label htmlFor="">Project id</label>
+      <input type="text" name="project_id" className="form-control" value={formData.project_id} onChange={(e)=>handleChange(e)}/>
       <label htmlFor="">Image</label>
       <input type="file" name="image" accept="image/*" className="form-control" onChange={(e)=>handleImageChange(e)}/>
       
